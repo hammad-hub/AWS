@@ -1,0 +1,103 @@
+Objective: Deploy Web Application on the Amazon EC2 Windows instances with Elastic Load Balancer in front of web application servers & database. Use two Availability Zones for provision of two web application servers in separate private subnets and configure them for high availability.
+Note: Make use of Name Tags on each resource for identification
+Region: North Virginia / Ohio only
+This deployment should include VPC with 2 Public & 3 Private subnets (2 For WebSRV 1 For RDS),Internet/NAT Gateway along with 1 CIDR block.
+
+Create 2 EC2 Windows instances on private subnet and install IIS.(Default Site should open on local host)
+
+Create an Internet facing Elastic load balancer along with ELB Security Group and add both EC2 Instances in the Target Group so that an internet user should be able to open http web server page (Port 80).
+
+Create a separate Security Group (SG) for EC2 to allow web traffic from ELB only.
+
+Web servers should be accessible via Bastion host only.
+
+Create MySQL RDS which should be accessible via web servers (Just install MYSQL Client for Connectivity).
+
+You should receive notifications via Email/SMS.
+
+Website should be accessible via yourname.sherdilitacademy.net
+
+Hint: ELB, EC2, VPC, RDS, SNS & Route53
+Deployment time: 2.5 Hours
+
+
+Subnet 5 
+3 Private 
+2 Public (NAT & Jump Box)
+
+VM - Win 2016 ( all) 
+
+VPC
+
+Internet Gateway 
+
+Public 
+10.0.10.0/24 – bastion 	Loadbalance
+10.0.20.0/24 -- 			loadbalance
+
+Private
+10.0.1.0/24 – webSRV-01
+10.0.2.0/24 - webSRV-02
+10.0.3.0/24 -- RDS
+--------------------------
+
+1 - VPC - Project  ( RT , SG & NACL) 
+VPC ID : vpc-0621fe037bf326568
+------------
+2 -Subent 
+
+Private-Snet-01-Project - us-east-1a-10.0.1.0 | webSRV-01
+Private-Snet-02-Project - us-east-1b-10.0.2.0 | webSRV-02
+
+Private-Snet-RDS-03-Project - us-east-1c-10.0.3.0
+
+Public-Snet-04-Project- us-east-1a-10.0.4.0
+Public-Snet-05-Project- us-east-1b-10.0.5.0
+------------
+3 - IGW Internet Gateway  - Project IGW  
+------------------------
+4 - nat-05d32e02ed8f63acb / Project -NAT  
+Public-Snet-05-Project- us-east-1b-10.0.5.0
+
+--------------------------------
+5- Route Table - 
+Private-Master-RT
+	Private-Snet-01-Project - us-east-1a-10.0.1.0 | webSRV-01
+	Private-Snet-02-Project - us-east-1b-10.0.2.0 | webSRV-02
+	Private-Snet-RDS-03-Project - us-east-1c-10.0.3.0
+Associate private 
+
+Public-RT-Master2-Project1
+	Public-Snet-04-Project- us-east-1a-10.0.4.0
+	Public-Snet-05-Project- us-east-1b-10.0.5.0
+
+Assocaite Public subnet with Public network 
+----------------------------------------------
+ 6- EC2
+Install IIS webser -01 on Sebnet1 (Private)
+Install IIS Webserver -02 on Subnet2 (Private)
+Install RDS on ?? - Subnet 1C ( testadmin : Help4YOU)
+Install Jumpbox - on Snet4 
+Webserver -01
+------------
+Private IP
+ 10.0.1.90
+User name
+ Administrator
+Password
+ tSpLhh=PCDPO?IrjJWA.grgiPyBHK8pr
+
+##Webserver 02
+Private IP
+ 10.0.2.87
+User name
+ Administrator
+MGWucQad!-bTq$IhGILNFYdXSFqxp.Lu
+__________________________________
+7 - ELB Test-Project
+SG-ELB with TCP 80 to ping 
+ELB on Public to get traffic to 
+-------
+testadmin ;Help4YOU
+
+Install DBviewer on Privte net 
