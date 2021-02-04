@@ -1,0 +1,65 @@
+Requirement : 
+Objective: Deploy Web Application on the Amazon EC2 Windows instances with Elastic Load Balancer in front of web application servers & database.
+Use two Availability Zones for provision of two web application servers in separate private subnets and configure them for high availability.
+
+Availabiity Zone: US East (Northern Virginia)
+
+  Zone 1 - us-east-1A
+  Zone 2 - us-east-1b
+  
+Subnet = Create 5 Subnets 
+
+2 in public 
+  1 = Bastion host 
+  2 = NatGateway
+
+3 in Private subnet 
+  Subnet 1   = one IIS VM via AutoScaling in | Zone 1 - us-east-1A
+  Subnet 2   = one IIS VM via AutoScaling in  | Zone 2 - us-east-1b
+  Subnet 3   = one MSSQL RDS Database in Subnet 3 via AutoScaling in  | Zone 2 - us-east-1b
+  ----------------------------------------------------------------
+  
+Step 1  #   Create VPC : 
+    1.1 - Create VPC  ( Make sure to copy the name of VPC - This will help you to search for deployments associated with vpc)
+    
+    Name or Tag : [Your Name or identifier ]-[VPC]-[Region]  | For Example : Cloudhs-vpc-US East (Northern Virginia) Region
+    
+Step 2   # Create Subnet as Requested :
+
+  2.2 Create subnet  ( for this excersise we will create 5 subnet )
+  
+    Name or Tage :  [Subnet]-(public) or (priate) - (Zone) - (Identifier or Name)
+    
+    Zone1 - US-E-1A
+snet01-pub-us-east-1a-10.0.1.0-awscloudhs  - Zone 1A - Public 
+snet02-pub-us-east-1b-10.0.2.0-awscloudhs	- Zone 1B - Public
+
+Zone 2 - us-east-1b
+snet03-pvt-us-east-1a-10.0.3.0-awscloudhs	- Zone 1A - Private
+snet04-pvt-us-east-1b-10.0.4.0-awscloudhs	- Zone 1B - Private
+snet05-pvt-us-east-1b-10.0.5.0-awscloudhs	 - Zone 1B - Private
+
+Step 3 - # Create Internet Gateway 
+Tag or Name :  [IGW]- [Identifier] 
+
+Step 4 - # Create NatGateway 
+Tage or Name - NAT- [Identifie]
+
+Step 5  # Route Table   
+
+  5.1 Find default RT by using VPC id 
+  5.2 Rename to Private or leave as is 
+  5.3 Create a new Route table for public traffice 
+  5.4 Associate subnet 
+  5.4.4  Add or associate public route table to public subnet 
+  5.4.5  Associate 0.0.0.0 traffice with internet gate way in PUBLIC Route
+  5.4.6  Add or associate Private route table to Private subnet 
+  5.4.6   Associate 0.0.0.0 traffice with Natgateway way in PRIVATE Route
+  
+Step 6 -#  Create Load Balancer 
+
+
+
+
+    
+    
